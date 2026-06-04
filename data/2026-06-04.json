@@ -45,23 +45,11 @@
     {
       "name": "slime",
       "repo": "THUDM/slime",
-      "prs": [
-        {
-          "number": 2016,
-          "title": "Fully support --rollout-external-engine-addrs",
-          "user": "zhuzilin",
-          "state": "open",
-          "url": "https://github.com/THUDM/slime/pull/2016",
-          "files": 15,
-          "additions": 768,
-          "deletions": 54,
-          "summary": ""
-        }
-      ],
+      "prs": [],
       "issues": []
     }
   ],
   "repo_issues": [],
-  "generated_at": "2026-06-04 11:06",
+  "generated_at": "2026-06-04 11:07",
   "generator": "Codex"
 }
