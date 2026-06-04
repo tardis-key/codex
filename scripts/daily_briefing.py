@@ -15,6 +15,7 @@ DATA_DIR      = os.path.join(REPO_DIR, "data")
 TOKEN_FILE    = os.path.expanduser("~/.codex/github_token")
 
 # ── Config ────────────────────────────────────────────────────────
+AT_USER       = "tardis-key"  # GitHub username to @mention in daily issues
 MONITORED_REPOS = [
     {"name": "verl",  "repo": "verl-project/verl"},
     {"name": "slime", "repo": "THUDM/slime"},
@@ -308,6 +309,8 @@ def check_repo_issues():
 def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
     L = []
     L.append(f"# 📋 Daily Briefing — {ts}")
+    L.append("")
+    L.append(f"> @{AT_USER} 早上好，今日简报已送达。")
     L.append("")
 
     # ── Vehicles ──
