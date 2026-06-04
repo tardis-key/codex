@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Codex Daily Briefing
-Posts structured daily reports to tardis-key/codex.
+Monitors verl + slime repos, checks vehicle maintenance, posts to tardis-key/codex.
 All generated content is signed as "Codex".
 """
 
@@ -15,8 +15,11 @@ DATA_DIR      = os.path.join(REPO_DIR, "data")
 TOKEN_FILE    = os.path.expanduser("~/.codex/github_token")
 
 # ── Config ────────────────────────────────────────────────────────
-VERL_REPO     = "verl-project/verl"
-OWNER_REPO    = "tardis-key/codex"
+MONITORED_REPOS = [
+    {"name": "verl",  "repo": "verl-project/verl"},
+    {"name": "slime", "repo": "THUDM/slime"},
+]
+OWNER_REPO     = "tardis-key/codex"
 DAYS_LOOKAHEAD = 30
 PR_ISSUE_HOURS = 24
 
@@ -56,7 +59,7 @@ def gh_api(method, path, body=None):
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    with urllib.request.urlopen(req, context=ctx, timeout=15) as resp:
+    with urllib.request.urlopen(req, context=ctx, timeout=20) as resp:
         return json.loads(resp.read().decode())
 
 def fetch_json(url):
@@ -67,7 +70,7 @@ def fetch_json(url):
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
-    with urllib.request.urlopen(req, context=ctx, timeout=15) as resp:
+    with urllib.request.urlopen(req, context=ctx, timeout=20) as resp:
         return json.loads(resp.read().decode())
 
 def git(*args):
@@ -96,13 +99,11 @@ def parse_note(html):
     li = re.compile(r"<li>(.+?)</li>")
     ul = re.compile(r"<ul>(.+?)</ul>", re.DOTALL)
     dt = re.compile(r"(\d{4})\.(\d{1,2})\.(\d{1,2})")
-
     names = [re.sub(r"<[^>]+>", "", m.group(1)).strip()
              for m in h2.finditer(html)
              if re.sub(r"<[^>]+>", "", m.group(1)).strip()
              and re.sub(r"<[^>]+>", "", m.group(1)).strip() != "坐骑"]
     uls = list(ul.finditer(html))
-
     vehicles = []
     for idx, name in enumerate(names):
         section = uls[idx].group(1) if idx < len(uls) else ""
@@ -169,7 +170,6 @@ def check_dates(vehicles):
     today = date.today()
     cutoff = today + timedelta(days=DAYS_LOOKAHEAD)
     overdue, upcoming = [], []
-
     for v in vehicles:
         for item in v["items"]:
             if not item["date"]:
@@ -186,40 +186,97 @@ def check_dates(vehicles):
             elif eff <= cutoff:
                 entry["days_left"] = (eff - today).days
                 upcoming.append(entry)
-
     overdue.sort(key=lambda x: x["effective"])
     upcoming.sort(key=lambda x: x["effective"])
     return {"overdue": overdue, "upcoming": upcoming}
 
 # ═══════════════════════════════════════════════════════════════════
-#  Step 4 — Fetch verl
+#  Step 4 — Fetch repos (with PR descriptions + diff stats)
 # ═══════════════════════════════════════════════════════════════════
 
-def fetch_verl():
+def _summarize_pr_body(body, max_len=200):
+    """Extract first meaningful paragraph from PR body, stripping markdown."""
+    if not body:
+        return ""
+    # Remove HTML comments, markdown headers, checklists
+    cleaned = re.sub(r"<!--.*?-->", "", body, flags=re.DOTALL)
+    cleaned = re.sub(r"^#+.*$", "", cleaned, flags=re.MULTILINE)
+    cleaned = re.sub(r"\[.*?\]\(.*?\)", r"\1", cleaned)  # keep link text
+    # Get first non-empty paragraph
+    paras = [p.strip() for p in cleaned.split("\n\n") if p.strip() and not p.strip().startswith("##")]
+    if not paras:
+        return ""
+    summary = paras[0][:max_len].replace("\n", " ")
+    if len(paras[0]) > max_len:
+        summary += "…"
+    return summary
+
+def _clean_title(title):
+    """Remove common prefixes like [feat], [fix], [ci] from display."""
+    return re.sub(r"^\[.*?\]\s*", "", title).strip()
+
+def fetch_repo_activity(monitor):
+    """Fetch PRs and issues for one monitored repo, with summaries."""
+    repo = monitor["repo"]
     since = (datetime.now() - timedelta(hours=PR_ISSUE_HOURS)).isoformat() + "Z"
     prs, issues = [], []
+
+    # Fetch PRs
     try:
-        for p in fetch_json(f"https://api.github.com/repos/{VERL_REPO}/pulls?state=all&sort=created&direction=desc&per_page=15"):
-            if p.get("created_at", "") >= since:
-                prs.append({"number": p["number"], "title": p["title"],
-                            "user": p["user"]["login"], "state": p["state"],
-                            "url": p["html_url"]})
+        pr_data = fetch_json(
+            f"https://api.github.com/repos/{repo}/pulls?state=all&sort=created&direction=desc&per_page=12")
+        for p in pr_data:
+            if p.get("created_at", "") < since:
+                continue
+            # Fetch diff stats for this PR
+            pr_url = p["url"]  # api URL for the PR
+            detail = fetch_json(pr_url)
+            body_text = (detail.get("body") or "")
+            additions = detail.get("additions", 0)
+            deletions = detail.get("deletions", 0)
+            changed_files = detail.get("changed_files", 0)
+            summary = _summarize_pr_body(body_text)
+
+            prs.append({
+                "number": p["number"],
+                "title": p["title"],
+                "user": p["user"]["login"],
+                "state": p["state"],
+                "url": p["html_url"],
+                "files": changed_files,
+                "additions": additions,
+                "deletions": deletions,
+                "summary": summary,
+            })
     except Exception as e:
-        print(f"  ! verl PRs: {e}", file=sys.stderr)
+        print(f"  ! {repo} PRs: {e}", file=sys.stderr)
+
+    # Fetch Issues
     try:
-        for iss in fetch_json(f"https://api.github.com/repos/{VERL_REPO}/issues?state=all&sort=created&direction=desc&per_page=15"):
+        iss_data = fetch_json(
+            f"https://api.github.com/repos/{repo}/issues?state=all&sort=created&direction=desc&per_page=12")
+        for iss in iss_data:
+            if iss.get("created_at", "") < since:
+                continue
             if "pull_request" in iss:
                 continue
-            if iss.get("created_at", "") >= since:
-                issues.append({"number": iss["number"], "title": iss["title"],
-                               "user": iss["user"]["login"], "state": iss["state"],
-                               "url": iss["html_url"]})
+            body_text = (iss.get("body") or "")
+            summary = _summarize_pr_body(body_text, max_len=150)
+            issues.append({
+                "number": iss["number"],
+                "title": iss["title"],
+                "user": iss["user"]["login"],
+                "state": iss["state"],
+                "url": iss["html_url"],
+                "summary": summary,
+            })
     except Exception as e:
-        print(f"  ! verl Issues: {e}", file=sys.stderr)
-    return {"prs": prs, "issues": issues}
+        print(f"  ! {repo} Issues: {e}", file=sys.stderr)
+
+    return {"name": monitor["name"], "repo": repo, "prs": prs, "issues": issues}
 
 # ═══════════════════════════════════════════════════════════════════
-#  Step 5 — Check repo issues
+#  Step 5 — Check own repo issues
 # ═══════════════════════════════════════════════════════════════════
 
 def check_repo_issues():
@@ -250,18 +307,17 @@ def check_repo_issues():
 #  Step 6 — Generate Markdown
 # ═══════════════════════════════════════════════════════════════════
 
-def md_briefing(ts, all_vehicles, alerts, gh, repo_issues):
+def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
     L = []
     L.append(f"# 📋 Daily Briefing — {ts}")
     L.append("")
 
-    # ── Vehicle section ──
+    # ── Vehicles ──
     L.append("## 🚗 车辆提醒")
     L.append("")
     L.append("> **保险** — 日期为到期日 ｜ **保养** — 日期为上次执行日，按行业周期推算下次时间")
     L.append("")
 
-    # Summary for ALL vehicles
     L.append("### 📊 车辆总览")
     L.append("")
     L.append("| 车辆 | 状态 |")
@@ -274,13 +330,9 @@ def md_briefing(ts, all_vehicles, alerts, gh, repo_issues):
         for x in alerts["upcoming"]:
             if x["vehicle"] == vname:
                 v_items.append(f"🟡 {x['desc']}（{x['days_left']}天后）")
-        if v_items:
-            L.append(f"| {vname} | {' · '.join(v_items)} |")
-        else:
-            L.append(f"| {vname} | ✅ 正常 |")
+        L.append(f"| {vname} | {' · '.join(v_items) if v_items else '✅ 正常'} |")
     L.append("")
 
-    # Detail tables
     if alerts["overdue"]:
         L.append("### 🔴 需关注")
         L.append("")
@@ -301,38 +353,48 @@ def md_briefing(ts, all_vehicles, alerts, gh, repo_issues):
             L.append(f"| {em} | {x['vehicle']} | {x['desc']} | {x['recorded']} | {x['effective']} | {x['days_left']} 天 |")
         L.append("")
 
-    # ── verl section ──
-    L.append(f"## 🔧 verl · PR ({len(gh['prs'])}) + Issues ({len(gh['issues'])})")
-    L.append("")
-    L.append(f"> 数据来源：[{VERL_REPO}](https://github.com/{VERL_REPO}) · 过去 24 小时")
-    L.append("")
+    # ── Monitored repos ──
+    for r in repos:
+        name = r["name"]
+        prs = r["prs"]
+        issues = r["issues"]
+        repo_url = r["repo"]
 
-    if gh["prs"]:
-        L.append("### Pull Requests")
+        L.append(f"## 🔧 {name} · PR ({len(prs)}) + Issues ({len(issues)})")
         L.append("")
-        L.append("| # | 标题 | 作者 | 状态 |")
-        L.append("|---|------|------|:----:|")
-        for p in gh["prs"]:
-            s_map = {"open": "🟢 open", "merged": "🟣 merged", "closed": "⚫ closed"}
-            s = s_map.get(p["state"], p["state"])
-            L.append(f"| [#{p['number']}]({p['url']}) | {p['title']} | {p['user']} | {s} |")
+        L.append(f"> [{repo_url}](https://github.com/{repo_url}) · 过去 24 小时")
         L.append("")
 
-    if gh["issues"]:
-        L.append("### Issues")
-        L.append("")
-        L.append("| # | 标题 | 作者 | 状态 |")
-        L.append("|---|------|------|:----:|")
-        for iss in gh["issues"]:
-            s = "🟢 open" if iss["state"] == "open" else "⚫ closed"
-            L.append(f"| [#{iss['number']}]({iss['url']}) | {iss['title']} | {iss['user']} | {s} |")
-        L.append("")
+        if prs:
+            L.append("### Pull Requests")
+            L.append("")
+            L.append("| # | 标题 | 作者 | 变更 | 概述 |")
+            L.append("|---|------|------|:----:|------|")
+            for p in prs:
+                s_map = {"open": "🟢", "merged": "🟣", "closed": "⚫"}
+                s = s_map.get(p["state"], "")
+                diff_str = f"+{p['additions']}/-{p['deletions']} ({p['files']}f)"
+                summary = p.get("summary", "") or "—"
+                title = p["title"]
+                L.append(f"| {s} [#{p['number']}]({p['url']}) | {title} | {p['user']} | {diff_str} | {summary} |")
+            L.append("")
 
-    if not gh["prs"] and not gh["issues"]:
-        L.append("过去 24 小时无新动态。")
-        L.append("")
+        if issues:
+            L.append("### Issues")
+            L.append("")
+            L.append("| # | 标题 | 作者 | 概述 |")
+            L.append("|---|------|------|------|")
+            for iss in issues:
+                s = "🟢" if iss["state"] == "open" else "⚫"
+                summary = iss.get("summary", "") or "—"
+                L.append(f"| {s} [#{iss['number']}]({iss['url']}) | {iss['title']} | {iss['user']} | {summary} |")
+            L.append("")
 
-    # ── Repo issues ──
+        if not prs and not issues:
+            L.append("过去 24 小时无新动态。")
+            L.append("")
+
+    # ── Own repo issues ──
     if repo_issues:
         L.append("## 📬 待回复的 Issue")
         L.append("")
@@ -340,7 +402,6 @@ def md_briefing(ts, all_vehicles, alerts, gh, repo_issues):
             L.append(f"- [#{ri['number']}]({ri['url']}) — {ri['title']} (by @{ri['user']})")
         L.append("")
 
-    # ── Signature ──
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
     L.append("---")
     L.append("")
@@ -348,7 +409,7 @@ def md_briefing(ts, all_vehicles, alerts, gh, repo_issues):
     return "\n".join(L)
 
 # ═══════════════════════════════════════════════════════════════════
-#  GitHub Actions
+#  Actions
 # ═══════════════════════════════════════════════════════════════════
 
 def create_issue(title, body):
@@ -385,27 +446,30 @@ def main():
 
     od, up = len(alerts["overdue"]), len(alerts["upcoming"])
     for x in alerts["overdue"]:
-        print(f"  🔴 {x['vehicle']}: {x['desc']} (due {x['effective']})")
+        print(f"  🔴 {x['vehicle']}: {x['desc']}")
     for x in alerts["upcoming"]:
         print(f"  🟡 {x['vehicle']}: {x['desc']} ({x['days_left']}d)")
     if not od and not up:
         print("  All clear")
 
-    # 2. verl
-    print(f"\n[{VERL_REPO}]...")
-    gh = fetch_verl()
-    print(f"  PRs: {len(gh['prs'])} | Issues: {len(gh['issues'])}")
+    # 2. Monitored repos
+    repos = []
+    for m in MONITORED_REPOS:
+        print(f"\n[{m['repo']}]...")
+        r = fetch_repo_activity(m)
+        repos.append(r)
+        print(f"  PRs: {len(r['prs'])} | Issues: {len(r['issues'])}")
 
-    # 3. Repo issues
+    # 3. Own repo issues
     print(f"\n[{OWNER_REPO}]...")
     repo_issues = check_repo_issues()
-    print(f"  Pending responses: {len(repo_issues)}")
+    print(f"  Pending: {len(repo_issues)}")
 
     # 4. Generate
     print("\nGenerating...")
-    md = md_briefing(ts, all_names, alerts, gh, repo_issues)
+    md = md_briefing(ts, all_names, alerts, repos, repo_issues)
 
-    # 5. Save files
+    # 5. Save to repo
     ym = today.strftime("%Y/%m")
     d = os.path.join(BRIEFINGS_DIR, ym)
     os.makedirs(d, exist_ok=True)
@@ -418,7 +482,7 @@ def main():
     with open(jp, "w", encoding="utf-8") as f:
         json.dump({
             "date": ts, "vehicles": all_names, "alerts": alerts,
-            "verl": gh, "repo_issues": repo_issues,
+            "repos": repos, "repo_issues": repo_issues,
             "generated_at": now_str, "generator": "Codex"
         }, f, ensure_ascii=False, indent=2)
 
@@ -440,7 +504,7 @@ def main():
     else:
         print("  No token — skipped")
 
-    # 8. Respond
+    # 8. Respond to pending issues
     for ri in repo_issues:
         print(f"\nReplying to #{ri['number']}...")
         respond_to_issue(ri["number"],
