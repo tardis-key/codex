@@ -1,0 +1,109 @@
+{
+  "date": "2026-06-04",
+  "vehicle_alerts": {
+    "overdue": [],
+    "upcoming": [
+      {
+        "vehicle": "850",
+        "desc": "交强险人保 2026.6.27 到期",
+        "recorded": "2026-06-27",
+        "effective": "2026-06-27",
+        "category": "insurance",
+        "days_left": 23
+      },
+      {
+        "vehicle": "巧格",
+        "desc": "交强险人保2026.6.29 到期",
+        "recorded": "2026-06-29",
+        "effective": "2026-06-29",
+        "category": "insurance",
+        "days_left": 25
+      },
+      {
+        "vehicle": "甲壳虫",
+        "desc": "10.7wkm保养 2025.7.1",
+        "recorded": "2025-07-01",
+        "effective": "2026-07-01",
+        "category": "maintenance",
+        "days_left": 27
+      }
+    ]
+  },
+  "github_activity": {
+    "prs": [
+      {
+        "number": 6600,
+        "title": "[ci] fix: chang nightly ci qwen3 8b",
+        "user": "daikang6",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/pull/6600"
+      },
+      {
+        "number": 6598,
+        "title": "Full async sg lang weight broadcasting",
+        "user": "theely",
+        "state": "closed",
+        "url": "https://github.com/verl-project/verl/pull/6598"
+      },
+      {
+        "number": 6597,
+        "title": "Sync fork",
+        "user": "yaoliu13",
+        "state": "closed",
+        "url": "https://github.com/verl-project/verl/pull/6597"
+      },
+      {
+        "number": 6596,
+        "title": "[megatron] fix: tolerate extra kwargs in MTP postprocess patch",
+        "user": "Meirtz",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/pull/6596"
+      },
+      {
+        "number": 6595,
+        "title": "[data] fix: default image_patch_size to processor's real patch_size in filter_overlong_prompts",
+        "user": "zengxingchen",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/pull/6595"
+      },
+      {
+        "number": 6594,
+        "title": "fix: align VL prompt filtering patch size",
+        "user": "he-yufeng",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/pull/6594"
+      },
+      {
+        "number": 6593,
+        "title": "feat(distillation): chunked gather-logsumexp for top-K loss to avoid OOM at long context",
+        "user": "kekellllll",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/pull/6593"
+      },
+      {
+        "number": 6591,
+        "title": "[vllm, megatron] fix: mxfp8 trainning support on Ascend NPU for verl v0.8.0",
+        "user": "quancs",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/pull/6591"
+      }
+    ],
+    "issues": [
+      {
+        "number": 6599,
+        "title": "verl 微调多模态的数据格式为什么images不支持传路径呢，而只能传PIL.mage?",
+        "user": "cqray1990",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/issues/6599"
+      },
+      {
+        "number": 6592,
+        "title": "filter_overlong_prompts uses wrong image_patch_size (14) for VL models with patch_size=16, causing torch.cat crash in agent_loop",
+        "user": "zengxingchen",
+        "state": "open",
+        "url": "https://github.com/verl-project/verl/issues/6592"
+      }
+    ]
+  },
+  "generated_at": "2026-06-04T10:50:24.212659"
+}
