@@ -237,11 +237,7 @@ def fetch_repo_activity(monitor):
             if p.get("created_at", "") < since:
                 continue
             # PR list response already includes body, additions, deletions
-            body_text = (p.get("body") or "")
-            additions = p.get("additions", 0)
-            deletions = p.get("deletions", 0)
-            changed_files = p.get("changed_files", 0)
-            summary = _summarize_pr_body(body_text)
+            summary = _summarize_pr_body(p.get("body") or "")
 
             prs.append({
                 "number": p["number"],
@@ -249,9 +245,6 @@ def fetch_repo_activity(monitor):
                 "user": p["user"]["login"],
                 "state": p["state"],
                 "url": p["html_url"],
-                "files": changed_files,
-                "additions": additions,
-                "deletions": deletions,
                 "summary": summary,
             })
     except Exception as e:
@@ -376,15 +369,13 @@ def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
         if prs:
             L.append("### Pull Requests")
             L.append("")
-            L.append("| # | 标题 | 作者 | 变更 | 概述 |")
-            L.append("|---|------|------|:----:|------|")
+            L.append("| # | 标题 | 作者 | 概述 |")
+            L.append("|---|------|------|------|")
             for p in prs:
                 s_map = {"open": "🟢", "merged": "🟣", "closed": "⚫"}
                 s = s_map.get(p["state"], "")
-                diff_str = f"+{p['additions']}/-{p['deletions']} ({p['files']}f)"
                 summary = p.get("summary", "") or "—"
-                title = p["title"]
-                L.append(f"| {s} [#{p['number']}]({p['url']}) | {title} | {p['user']} | {diff_str} | {summary} |")
+                L.append(f"| {s} [#{p['number']}]({p['url']}) | {p['title']} | {p['user']} | {summary} |")
             L.append("")
 
         if issues:
