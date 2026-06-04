@@ -196,20 +196,27 @@ def check_dates(vehicles):
 # ═══════════════════════════════════════════════════════════════════
 
 def _summarize_pr_body(body, max_len=200):
-    """Extract first meaningful paragraph from PR body, stripping markdown."""
+    """Extract first meaningful paragraph from PR/issue body."""
     if not body:
         return ""
-    # Remove HTML comments, markdown headers, checklists
+    # Remove HTML comments
     cleaned = re.sub(r"<!--.*?-->", "", body, flags=re.DOTALL)
-    cleaned = re.sub(r"^#+.*$", "", cleaned, flags=re.MULTILINE)
-    cleaned = re.sub(r"\[.*?\]\(.*?\)", r"\1", cleaned)  # keep link text
-    # Get first non-empty paragraph
-    paras = [p.strip() for p in cleaned.split("\n\n") if p.strip() and not p.strip().startswith("##")]
+    # Remove markdown images and links (keep link text)
+    cleaned = re.sub(r"!\[[^\]]*\]\([^)]*\)", "", cleaned)
+    cleaned = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", cleaned)
+    # Remove markdown headers
+    cleaned = re.sub(r"^#{1,4}\s.*$", "", cleaned, flags=re.MULTILINE)
+    # Remove checklist items
+    cleaned = re.sub(r"^\s*[-*]\s*\[[ x]\]\s.*$", "", cleaned, flags=re.MULTILINE)
+    # Collapse excessive whitespace
+    cleaned = re.sub(r"\n{3,}", "\n\n", cleaned)
+    # Get first non-empty, non-header paragraph
+    paras = [p.strip() for p in cleaned.split("\n\n") if p.strip()]
     if not paras:
         return ""
     summary = paras[0][:max_len].replace("\n", " ")
     if len(paras[0]) > max_len:
-        summary += "…"
+        summary += "..."
     return summary
 
 def _clean_title(title):

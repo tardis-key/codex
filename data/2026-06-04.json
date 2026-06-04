@@ -39,8 +39,125 @@
     {
       "name": "verl",
       "repo": "verl-project/verl",
-      "prs": [],
-      "issues": []
+      "prs": [
+        {
+          "number": 6601,
+          "title": "[misc] fix: revert run_qwen3_8b_fsdp_npu.sh",
+          "user": "hustmf",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6601",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "revert run_qwen3_8b_fsdp_npu.sh"
+        },
+        {
+          "number": 6600,
+          "title": "[ci] fix: chang nightly ci qwen3 8b",
+          "user": "daikang6",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6600",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "> chang nightly ci qwen3 8b"
+        },
+        {
+          "number": 6598,
+          "title": "Full async sg lang weight broadcasting",
+          "user": "theely",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6598",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review."
+        },
+        {
+          "number": 6597,
+          "title": "Sync fork",
+          "user": "yaoliu13",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6597",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "Sync fork"
+        },
+        {
+          "number": 6596,
+          "title": "[megatron] fix: tolerate extra kwargs in MTP postprocess patch",
+          "user": "Meirtz",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6596",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "`patch_postprocess` (MTP support) replaces `GPTModel._postprocess` with `_megatron_gptmodel_postprocess`. In current Megatron-Core, `GPTModel.forward` calls `self._postprocess(...)` with extra keyword..."
+        },
+        {
+          "number": 6595,
+          "title": "[data] fix: default image_patch_size to processor's real patch_size in filter_overlong_prompts",
+          "user": "zengxingchen",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6595",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "Fixes a crash in `agent_loop._postprocess` caused by `filter_overlong_prompts` under-counting vision tokens when the model's real `image_processor.patch_size` differs from the hardcoded default of 14...."
+        },
+        {
+          "number": 6594,
+          "title": "fix: align VL prompt filtering patch size",
+          "user": "he-yufeng",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6594",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "- default `RLHFDataset.image_patch_size` from `processor.image_processor.patch_size` when a multimodal processor is available - keep `data.image_patch_size` as an explicit override - add CPU tests for..."
+        },
+        {
+          "number": 6593,
+          "title": "feat(distillation): chunked gather-logsumexp for top-K loss to avoid OOM at long context",
+          "user": "kekellllll",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6593",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "The student `log_softmax + gather` pattern in `verl/trainer/distillation/fsdp/losses.py` materializes a full `[N, V]` tensor before reducing to top-K. For long-context distillation (64K+ tokens with `..."
+        },
+        {
+          "number": 6591,
+          "title": "[vllm, megatron] fix: mxfp8 trainning support on Ascend NPU for verl v0.8.0",
+          "user": "quancs",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6591",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "This PR fixes several issues in mxfp8 training on Ascend NPU:\r 1. Megatron (mindspeed) MXFP8 training feature `fp8_reuse_quantized_weight`: context should be reset when switching models\r 2. Rollout vl..."
+        }
+      ],
+      "issues": [
+        {
+          "number": 6599,
+          "title": "verl 微调多模态的数据格式为什么images不支持传路径呢，而只能传PIL.mage?",
+          "user": "cqray1990",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6599",
+          "summary": "if segment == \"<image>\":                     assert image_offset < len(images), f\"image_offset {image_offset} >= len(images) {len(images)}\"           ..."
+        },
+        {
+          "number": 6592,
+          "title": "filter_overlong_prompts uses wrong image_patch_size (14) for VL models with patch_size=16, causing torch.cat crash in agent_loop",
+          "user": "zengxingchen",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6592",
+          "summary": "（Official Docker Image） ------------Pip Info----------- Version      : 26.1.1 Directory    : /usr/local/lib/python3.12/dist-packages/pip vllm         ..."
+        }
+      ]
     },
     {
       "name": "slime",
@@ -56,12 +173,45 @@
           "additions": 0,
           "deletions": 0,
           "summary": ""
+        },
+        {
+          "number": 2015,
+          "title": "fix(rollout): drain generation before offload memory release",
+          "user": "EazyReal",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2015",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "`RolloutServer.offload()` currently releases SGLang engine memory by calling `release_memory_occupation()` directly on each offloaded engine group."
+        },
+        {
+          "number": 2014,
+          "title": "fix(rollout): apply sample filter in rollout manager",
+          "user": "EazyReal",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2014",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "This PR fixes `--rollout-sample-filter-path` so it is applied consistently for all training rollout functions, including custom functions loaded through `--rollout-function-path`."
+        },
+        {
+          "number": 2013,
+          "title": "Revert \"rename rollout_ids to group_ids\"",
+          "user": "zhuzilin",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2013",
+          "files": 0,
+          "additions": 0,
+          "deletions": 0,
+          "summary": "Reverts THUDM/slime#1984 as there is conflict to internal tools."
         }
       ],
       "issues": []
     }
   ],
   "repo_issues": [],
-  "generated_at": "2026-06-04 11:24",
+  "generated_at": "2026-06-04 11:25",
   "generator": "Codex"
 }
