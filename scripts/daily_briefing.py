@@ -63,10 +63,14 @@ def gh_api(method, path, body=None):
         return json.loads(resp.read().decode())
 
 def fetch_json(url):
-    req = urllib.request.Request(url, headers={
+    headers = {
         "User-Agent": "Codex-Daily-Briefing/2.0",
         "Accept": "application/vnd.github+json"
-    })
+    }
+    token = get_token()
+    if token:
+        headers["Authorization"] = f"Bearer {token}"
+    req = urllib.request.Request(url, headers=headers)
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
