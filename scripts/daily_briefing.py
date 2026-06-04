@@ -228,13 +228,11 @@ def fetch_repo_activity(monitor):
         for p in pr_data:
             if p.get("created_at", "") < since:
                 continue
-            # Fetch diff stats for this PR
-            pr_url = p["url"]  # api URL for the PR
-            detail = fetch_json(pr_url)
-            body_text = (detail.get("body") or "")
-            additions = detail.get("additions", 0)
-            deletions = detail.get("deletions", 0)
-            changed_files = detail.get("changed_files", 0)
+            # PR list response already includes body, additions, deletions
+            body_text = (p.get("body") or "")
+            additions = p.get("additions", 0)
+            deletions = p.get("deletions", 0)
+            changed_files = p.get("changed_files", 0)
             summary = _summarize_pr_body(body_text)
 
             prs.append({
