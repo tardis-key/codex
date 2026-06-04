@@ -1,10 +1,16 @@
 {
   "date": "2026-06-04",
+  "vehicles": [
+    "巧格",
+    "甲壳虫",
+    "水鸟",
+    "幼兽"
+  ],
   "alerts": {
     "overdue": [],
     "upcoming": [
       {
-        "vehicle": "850",
+        "vehicle": "水鸟",
         "desc": "交强险人保 2026.6.27 到期",
         "recorded": "2026-06-27",
         "effective": "2026-06-27",
@@ -113,6 +119,6 @@
     ]
   },
   "repo_issues": [],
-  "generated_at": "2026-06-04 11:00",
+  "generated_at": "2026-06-04 11:04",
   "generator": "Codex"
 }
