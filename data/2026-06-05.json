@@ -41,10 +41,18 @@
       "repo": "verl-project/verl",
       "prs": [
         {
+          "number": 6614,
+          "title": "[ci] add PIP_INDEX_URL and UV_INDEX_URL to fix pip install uv timeout on Ascend",
+          "user": "KadenZhang3321",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6614",
+          "summary": "`pip install uv` in Ascend CI workflows was timing out because pip used default PyPI (`files.pythonhosted.org`) with no index configuration. The `UV_*` environment variables don't apply to pip."
+        },
+        {
           "number": 6612,
           "title": "[veomni] feat: reduce extra memory from O(E) to O(E/ep_size) during weight refit",
           "user": "wuxibin89",
-          "state": "open",
+          "state": "closed",
           "url": "https://github.com/verl-project/verl/pull/6612",
           "summary": "Before this PR, during weight refit, veomni materialize MoE experts by `all_gather`, requiring extra peak memory `O(E)`.\r \r This PR replace `all_gather` by `broadcast`, each rank broadcast its local s..."
         },
@@ -73,16 +81,66 @@
           "summary": "This PR adds comprehensive Intel GPU (Arc/Arc Pro B-series Battlemage) support for veRL training, enabling end-to-end GRPO, PPO, and SFT workflows on Intel discrete GPUs."
         }
       ],
-      "issues": []
+      "issues": [
+        {
+          "number": 6615,
+          "title": "[CheckpointEngine] Same socket reused by multiple vllm workers (DP>1 + EP enabled)",
+          "user": "Mind-s",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6615",
+          "summary": "File \"/verl/verl/workers/rollout/vllm_rollout/bucketed_weight_transfer.py\", line 310, in _init_buffer \u001b[36m(vLLMHttpServer pid=593680)\u001b[0m     buffer ..."
+        },
+        {
+          "number": 6613,
+          "title": "bug when training gemma-4",
+          "user": "congdama",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6613",
+          "summary": "When attempting to training the gemma-4-31B model using verl 0.8.0 with the Megatron backend, the following error occurred:"
+        },
+        {
+          "number": 6609,
+          "title": "[Megatron][MoE] grad_norm explosion under context parallel (CP>1): loss_func must return 3-tuple when calculate_per_token_loss=True",
+          "user": "insightLLM",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6609",
+          "summary": "When training a **MoE** model with the **Megatron** backend under **context parallelism (`CP > 1`)** together with `use_remove_padding=True`, `actor/g..."
+        },
+        {
+          "number": 6608,
+          "title": "hccl debug",
+          "user": "code10244096",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6608",
+          "summary": "tp2, N_GPUS_PER_NODE=2，npu上训练一个qwen 4B vl模型就会出现hccl报错： (vLLMHttpServer pid=3847687) (Worker_TP1 pid=3849557) ERROR 06-04 22:25:57 [multiproc_executor...."
+        }
+      ]
     },
     {
       "name": "slime",
       "repo": "THUDM/slime",
-      "prs": [],
+      "prs": [
+        {
+          "number": 2021,
+          "title": "Support update_from_disk",
+          "user": "zhuzilin",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2021",
+          "summary": ""
+        },
+        {
+          "number": 2020,
+          "title": "Accelerate raw HF save with node writers",
+          "user": "zhuzilin",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2020",
+          "summary": ""
+        }
+      ],
       "issues": []
     }
   ],
   "repo_issues": [],
-  "generated_at": "2026-06-05 09:01",
+  "generated_at": "2026-06-05 11:30",
   "generator": "Codex"
 }

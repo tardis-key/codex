@@ -374,8 +374,8 @@ def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
             for p in prs:
                 s_map = {"open": "🟢", "merged": "🟣", "closed": "⚫"}
                 s = s_map.get(p["state"], "")
-                summary = p.get("summary", "") or "—"
-                L.append(f"| {s} [#{p['number']}]({p['url']}) | {p['title']} | {p['user']} | {summary} |")
+                summary = (p.get("summary", "") or "—").replace("\n", " ")
+                L.append(f"| {s} #{p['number']} | {p['title']} | {p['user']} | {summary} |")
             L.append("")
 
         if issues:
@@ -385,8 +385,8 @@ def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
             L.append("|---|------|------|------|")
             for iss in issues:
                 s = "🟢" if iss["state"] == "open" else "⚫"
-                summary = iss.get("summary", "") or "—"
-                L.append(f"| {s} [#{iss['number']}]({iss['url']}) | {iss['title']} | {iss['user']} | {summary} |")
+                summary = (iss.get("summary", "") or "—").replace("\n", " ")
+                L.append(f"| {s} #{iss['number']} | {iss['title']} | {iss['user']} | {summary} |")
             L.append("")
 
         if not prs and not issues:
@@ -398,7 +398,7 @@ def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
         L.append("## 📬 待回复的 Issue")
         L.append("")
         for ri in repo_issues:
-            L.append(f"- [#{ri['number']}]({ri['url']}) — {ri['title']} (by @{ri['user']})")
+            L.append(f"- #{ri['number']} [{ri['title']}]({ri['url']}) — by @{ri['user']}")
         L.append("")
 
     now_str = datetime.now().strftime("%Y-%m-%d %H:%M")
