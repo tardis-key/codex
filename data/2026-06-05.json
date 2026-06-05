@@ -1,0 +1,88 @@
+{
+  "date": "2026-06-05",
+  "vehicles": [
+    "巧格",
+    "甲壳虫",
+    "水鸟",
+    "幼兽"
+  ],
+  "alerts": {
+    "overdue": [],
+    "upcoming": [
+      {
+        "vehicle": "水鸟",
+        "desc": "交强险人保 2026.6.27 到期",
+        "recorded": "2026-06-27",
+        "effective": "2026-06-27",
+        "category": "insurance",
+        "days_left": 22
+      },
+      {
+        "vehicle": "巧格",
+        "desc": "交强险人保2026.6.29 到期",
+        "recorded": "2026-06-29",
+        "effective": "2026-06-29",
+        "category": "insurance",
+        "days_left": 24
+      },
+      {
+        "vehicle": "甲壳虫",
+        "desc": "10.7wkm保养 2025.7.1",
+        "recorded": "2025-07-01",
+        "effective": "2026-07-01",
+        "category": "maintenance",
+        "days_left": 26
+      }
+    ]
+  },
+  "repos": [
+    {
+      "name": "verl",
+      "repo": "verl-project/verl",
+      "prs": [
+        {
+          "number": 6612,
+          "title": "[veomni] feat: reduce extra memory from O(E) to O(E/ep_size) during weight refit",
+          "user": "wuxibin89",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6612",
+          "summary": "Before this PR, during weight refit, veomni materialize MoE experts by `all_gather`, requiring extra peak memory `O(E)`.\r \r This PR replace `all_gather` by `broadcast`, each rank broadcast its local s..."
+        },
+        {
+          "number": 6611,
+          "title": "feat: analytical auto-parallel for Megatron PPO (auto_parallelization + main_ppo)",
+          "user": "aminmalekisadr",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6611",
+          "summary": "Adds **analytical auto-parallelization** for Megatron-based PPO training (optional, off by default):\r \r - New `verl/utils/auto_parallelization.py`: formula-based TP/PP/CP/EP/DP search with memory gati..."
+        },
+        {
+          "number": 6610,
+          "title": "feat: rack-aware placement search for Ray resource pools",
+          "user": "aminmalekisadr",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6610",
+          "summary": "Adds optional **rack-aware placement search** for PPO training on Ray:\r \r - New `verl/utils/placement.py`: discover rack→node layout from Ray, select nodes with a TP/CP/PP/DP-aware heuristic, validate..."
+        },
+        {
+          "number": 6607,
+          "title": "feat(xpu): Add Intel GPU support for veRL training",
+          "user": "kahlun",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6607",
+          "summary": "This PR adds comprehensive Intel GPU (Arc/Arc Pro B-series Battlemage) support for veRL training, enabling end-to-end GRPO, PPO, and SFT workflows on Intel discrete GPUs."
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "slime",
+      "repo": "THUDM/slime",
+      "prs": [],
+      "issues": []
+    }
+  ],
+  "repo_issues": [],
+  "generated_at": "2026-06-05 09:01",
+  "generator": "Codex"
+}
