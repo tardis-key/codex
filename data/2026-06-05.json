@@ -54,7 +54,7 @@
           "user": "wuxibin89",
           "state": "closed",
           "url": "https://github.com/verl-project/verl/pull/6612",
-          "summary": "Before this PR, during weight refit, veomni materialize MoE experts by `all_gather`, requiring extra peak memory `O(E)`.\r \r This PR replace `all_gather` by `broadcast`, each rank broadcast its local s..."
+          "summary": "Before this PR, during weight refit, veomni materialize MoE experts by `all_gather`, requiring extra peak memory `O(E)`.  This PR replace `all_gather` by `broadcast`, each rank broadcast its local s..."
         },
         {
           "number": 6611,
@@ -62,7 +62,7 @@
           "user": "aminmalekisadr",
           "state": "open",
           "url": "https://github.com/verl-project/verl/pull/6611",
-          "summary": "Adds **analytical auto-parallelization** for Megatron-based PPO training (optional, off by default):\r \r - New `verl/utils/auto_parallelization.py`: formula-based TP/PP/CP/EP/DP search with memory gati..."
+          "summary": "Adds **analytical auto-parallelization** for Megatron-based PPO training (optional, off by default):  - New `verl/utils/auto_parallelization.py`: formula-based TP/PP/CP/EP/DP search with memory gati..."
         },
         {
           "number": 6610,
@@ -70,7 +70,7 @@
           "user": "aminmalekisadr",
           "state": "open",
           "url": "https://github.com/verl-project/verl/pull/6610",
-          "summary": "Adds optional **rack-aware placement search** for PPO training on Ray:\r \r - New `verl/utils/placement.py`: discover rack→node layout from Ray, select nodes with a TP/CP/PP/DP-aware heuristic, validate..."
+          "summary": "Adds optional **rack-aware placement search** for PPO training on Ray:  - New `verl/utils/placement.py`: discover rack→node layout from Ray, select nodes with a TP/CP/PP/DP-aware heuristic, validate..."
         },
         {
           "number": 6607,
@@ -141,6 +141,6 @@
     }
   ],
   "repo_issues": [],
-  "generated_at": "2026-06-05 11:30",
+  "generated_at": "2026-06-05 11:33",
   "generator": "Codex"
 }

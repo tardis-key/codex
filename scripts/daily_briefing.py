@@ -214,7 +214,7 @@ def _summarize_pr_body(body, max_len=200):
     paras = [p.strip() for p in cleaned.split("\n\n") if p.strip()]
     if not paras:
         return ""
-    summary = paras[0][:max_len].replace("\n", " ")
+    summary = paras[0][:max_len].replace("\n", " ").replace("\r", "")
     if len(paras[0]) > max_len:
         summary += "..."
     return summary
@@ -374,7 +374,7 @@ def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
             for p in prs:
                 s_map = {"open": "🟢", "merged": "🟣", "closed": "⚫"}
                 s = s_map.get(p["state"], "")
-                summary = (p.get("summary", "") or "—").replace("\n", " ")
+                summary = (p.get("summary", "") or "—").replace("\n", " ").replace("\r", "")
                 L.append(f"| {s} #{p['number']} | {p['title']} | {p['user']} | {summary} |")
             L.append("")
 
@@ -385,7 +385,7 @@ def md_briefing(ts, all_vehicles, alerts, repos, repo_issues):
             L.append("|---|------|------|------|")
             for iss in issues:
                 s = "🟢" if iss["state"] == "open" else "⚫"
-                summary = (iss.get("summary", "") or "—").replace("\n", " ")
+                summary = (iss.get("summary", "") or "—").replace("\n", " ").replace("\r", "")
                 L.append(f"| {s} #{iss['number']} | {iss['title']} | {iss['user']} | {summary} |")
             L.append("")
 
