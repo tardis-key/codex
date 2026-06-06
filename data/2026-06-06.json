@@ -1,0 +1,130 @@
+{
+  "date": "2026-06-06",
+  "vehicles": [
+    "巧格",
+    "甲壳虫",
+    "水鸟",
+    "幼兽"
+  ],
+  "alerts": {
+    "overdue": [],
+    "upcoming": [
+      {
+        "vehicle": "水鸟",
+        "desc": "交强险人保 2026.6.27 到期",
+        "recorded": "2026-06-27",
+        "effective": "2026-06-27",
+        "category": "insurance",
+        "days_left": 21
+      },
+      {
+        "vehicle": "巧格",
+        "desc": "交强险人保2026.6.29 到期",
+        "recorded": "2026-06-29",
+        "effective": "2026-06-29",
+        "category": "insurance",
+        "days_left": 23
+      },
+      {
+        "vehicle": "甲壳虫",
+        "desc": "10.7wkm保养 2025.7.1",
+        "recorded": "2025-07-01",
+        "effective": "2026-07-01",
+        "category": "maintenance",
+        "days_left": 25
+      }
+    ]
+  },
+  "repos": [
+    {
+      "name": "verl",
+      "repo": "verl-project/verl",
+      "prs": [
+        {
+          "number": 6635,
+          "title": "[megatron] fix: Fix Megatron optimizer offloading when `use_precision_aware_optimizer=True`",
+          "user": "rao-ashish",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6635",
+          "summary": "This PR fixes optimizer offloading code for the Megatron backend so that the Megatron backend can be initialized with `use_precision_aware_optimizer=True`. Users can enable this like so:  ``` ... ..."
+        },
+        {
+          "number": 6634,
+          "title": "删除了许多无关的文件，让整个项目看起来更加简洁",
+          "user": "xvolcano02",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6634",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review."
+        },
+        {
+          "number": 6633,
+          "title": "Merge old fork into fresh",
+          "user": "TimurTaepov",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6633",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review."
+        },
+        {
+          "number": 6632,
+          "title": "test",
+          "user": "666asd",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6632",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review."
+        },
+        {
+          "number": 6631,
+          "title": "[data] fix: support path multimodal placeholders",
+          "user": "le-czs",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6631",
+          "summary": "Fixes #6623."
+        },
+        {
+          "number": 6630,
+          "title": "[rollout] fix: propagate ignore_eos to vLLM sampling params",
+          "user": "Mengyuyang",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6630",
+          "summary": "[> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review.] Before modifying `ignore_eos`, setting this parameter to..."
+        }
+      ],
+      "issues": []
+    },
+    {
+      "name": "slime",
+      "repo": "THUDM/slime",
+      "prs": [
+        {
+          "number": 2024,
+          "title": "Log progress while waiting for placement group",
+          "user": "luccabb",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2024",
+          "summary": "`_create_placement_group` waits for the placement group with a bare `ray.get(pg.ready())`. When the placement group can't be placed yet — a node's GPUs haven't registered with the Ray GCS, or an autos..."
+        }
+      ],
+      "issues": [
+        {
+          "number": 2025,
+          "title": "[Question] slimerl/slime:latest 镜像中，sglang 还是0.5.9，希望提供0.5.12的镜像",
+          "user": "llp1992",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/issues/2025",
+          "summary": "slimerl/slime:latest 镜像中，sglang 还是0.5.9，希望提供0.5.12的镜像"
+        },
+        {
+          "number": 2023,
+          "title": "[Question] sglang-omni + slime RL",
+          "user": "kaysonyu",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/issues/2023",
+          "summary": "想问一下 sglang-omni 后面会怎么样接入 slime 吗"
+        }
+      ]
+    }
+  ],
+  "repo_issues": [],
+  "generated_at": "2026-06-06 09:01",
+  "generator": "Codex"
+}
