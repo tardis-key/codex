@@ -1,0 +1,130 @@
+{
+  "date": "2026-06-07",
+  "vehicles": [
+    "巧格",
+    "甲壳虫",
+    "水鸟",
+    "幼兽"
+  ],
+  "alerts": {
+    "overdue": [],
+    "upcoming": [
+      {
+        "vehicle": "水鸟",
+        "desc": "交强险人保 2026.6.27 到期",
+        "recorded": "2026-06-27",
+        "effective": "2026-06-27",
+        "category": "insurance",
+        "days_left": 20
+      },
+      {
+        "vehicle": "巧格",
+        "desc": "交强险人保2026.6.29 到期",
+        "recorded": "2026-06-29",
+        "effective": "2026-06-29",
+        "category": "insurance",
+        "days_left": 22
+      },
+      {
+        "vehicle": "甲壳虫",
+        "desc": "10.7wkm保养 2025.7.1",
+        "recorded": "2025-07-01",
+        "effective": "2026-07-01",
+        "category": "maintenance",
+        "days_left": 24
+      }
+    ]
+  },
+  "repos": [
+    {
+      "name": "verl",
+      "repo": "verl-project/verl",
+      "prs": [
+        {
+          "number": 6644,
+          "title": "[veomni] fix: pass mixed precision config to veomni",
+          "user": "Luosuu",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6644",
+          "summary": "Fix VeOmni engine mixed precision setup to pass VeOmni's `MixedPrecisionConfig` object into `build_parallelize_model`, while using the same config to decide the base model load dtype."
+        },
+        {
+          "number": 6643,
+          "title": "Feature/internvl2 5 support",
+          "user": "sunshine-JLU",
+          "state": "closed",
+          "url": "https://github.com/verl-project/verl/pull/6643",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review."
+        },
+        {
+          "number": 6641,
+          "title": "[trainer] fix: fail closed on incomplete agent-loop rollouts",
+          "user": "TimurTaepov",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6641",
+          "summary": "Fixes #6437.  This PR makes `main_ppo_sync` fail closed when agent-loop rollout batches finish with missing rollout sessions.  Previously, `ReplayBuffer.sample()` waited only for `status=\"running\"..."
+        },
+        {
+          "number": 6640,
+          "title": "[doc] chore: Update ascend_vllm_best_practices.rst",
+          "user": "wangshuyang31",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6640",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review."
+        }
+      ],
+      "issues": [
+        {
+          "number": 6642,
+          "title": "GRPO lora 微调qwen3-vl-4B",
+          "user": "cqray1990",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6642",
+          "summary": "vllm 0.11.0 command：                                     #!/usr/bin/env bash                           # GRPO | vision | vLLM rollout | FSDP training ..."
+        }
+      ]
+    },
+    {
+      "name": "slime",
+      "repo": "THUDM/slime",
+      "prs": [
+        {
+          "number": 2029,
+          "title": "use balance_by_flops as balance data across mbs",
+          "user": "zhuzilin",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2029",
+          "summary": ""
+        },
+        {
+          "number": 2028,
+          "title": "remove abundant function",
+          "user": "zhuzilin",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2028",
+          "summary": ""
+        },
+        {
+          "number": 2027,
+          "title": "[draft] Add heavy logging system",
+          "user": "zhuzilin",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2027",
+          "summary": ""
+        },
+        {
+          "number": 2026,
+          "title": "examples: add CISPO custom loss",
+          "user": "kekmodel",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2026",
+          "summary": "This reworks the CISPO support from #681 as an example-first custom loss instead of adding a new built-in advantage estimator."
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "repo_issues": [],
+  "generated_at": "2026-06-07 09:00",
+  "generator": "Codex"
+}
