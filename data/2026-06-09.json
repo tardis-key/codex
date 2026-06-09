@@ -1,0 +1,89 @@
+{
+  "date": "2026-06-09",
+  "vehicles": [
+    "巧格",
+    "甲壳虫",
+    "水鸟",
+    "幼兽"
+  ],
+  "alerts": {
+    "overdue": [],
+    "upcoming": [
+      {
+        "vehicle": "水鸟",
+        "desc": "交强险人保 2026.6.27 到期",
+        "recorded": "2026-06-27",
+        "effective": "2026-06-27",
+        "category": "insurance",
+        "days_left": 18
+      },
+      {
+        "vehicle": "巧格",
+        "desc": "交强险人保2026.6.29 到期",
+        "recorded": "2026-06-29",
+        "effective": "2026-06-29",
+        "category": "insurance",
+        "days_left": 20
+      },
+      {
+        "vehicle": "甲壳虫",
+        "desc": "10.7wkm保养 2025.7.1",
+        "recorded": "2025-07-01",
+        "effective": "2026-07-01",
+        "category": "maintenance",
+        "days_left": 22
+      }
+    ]
+  },
+  "repos": [
+    {
+      "name": "verl",
+      "repo": "verl-project/verl",
+      "prs": [],
+      "issues": [
+        {
+          "number": 6658,
+          "title": "Disable \"use_mbridge\" in version 0.8.x",
+          "user": "geolvr",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6658",
+          "summary": "请问使用v0.8.0及以上版本，如何不使用mbridge呢？需要适配一些自定义模型，没有注册到mbridge中，使用v0.7.x的use_mbridge=False配置可以正常训练，但v0.8.x会强制要求use_mbridge=True，这个有办法解决吗？我们需要0.8.x的一些新特性。 昇腾NP..."
+        }
+      ]
+    },
+    {
+      "name": "slime",
+      "repo": "THUDM/slime",
+      "prs": [
+        {
+          "number": 2034,
+          "title": "[docs] Add AgentCore RL Toolkit to ecosystem list",
+          "user": "lyzustc",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2034",
+          "summary": "Add AgentCore RL Toolkit to the list of ecosystem built on slime in README."
+        },
+        {
+          "number": 2033,
+          "title": "[draft] Add support for multi teacher OPD and memory-efficient topk level OPD",
+          "user": "hhnqqq",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2033",
+          "summary": "Top-k OPD needs a separate actor flow because it prepares old-policy top-k indices, teacher log-probs on those indices, and a top-k/tail loss before normal Megatron training. The normal train.py path ..."
+        },
+        {
+          "number": 2032,
+          "title": "Support OPD when teacher tokenization differs",
+          "user": "hhnqqq",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2032",
+          "summary": "SGLang OPD previously assumed that teacher and student shared token IDs, so it could send student token IDs directly to the teacher server and trim returned logprobs by student response length. Cross-..."
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "repo_issues": [],
+  "generated_at": "2026-06-09 09:10",
+  "generator": "Codex"
+}
