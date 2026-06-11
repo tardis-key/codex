@@ -1,0 +1,114 @@
+{
+  "date": "2026-06-11",
+  "vehicles": [
+    "巧格",
+    "甲壳虫",
+    "水鸟",
+    "幼兽"
+  ],
+  "alerts": {
+    "overdue": [],
+    "upcoming": [
+      {
+        "vehicle": "水鸟",
+        "desc": "交强险人保 2026.6.27 到期",
+        "recorded": "2026-06-27",
+        "effective": "2026-06-27",
+        "category": "insurance",
+        "days_left": 16
+      },
+      {
+        "vehicle": "巧格",
+        "desc": "交强险人保2026.6.29 到期",
+        "recorded": "2026-06-29",
+        "effective": "2026-06-29",
+        "category": "insurance",
+        "days_left": 18
+      },
+      {
+        "vehicle": "甲壳虫",
+        "desc": "10.7wkm保养 2025.7.1",
+        "recorded": "2025-07-01",
+        "effective": "2026-07-01",
+        "category": "maintenance",
+        "days_left": 20
+      }
+    ]
+  },
+  "repos": [
+    {
+      "name": "verl",
+      "repo": "verl-project/verl",
+      "prs": [
+        {
+          "number": 6686,
+          "title": "build(deps): update tensordict requirement from !=0.9.0,<=0.10.0,>=0.8.0 to !=0.9.0,<=0.13.0,>=0.13.0",
+          "user": "dependabot[bot]",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6686",
+          "summary": "Updates the requirements on tensordict to permit the latest version. <details> <summary>Release notes</summary> <p><em>Sourced from <a href=\"https://github.com/pytorch/tensordict/releases\">tensordict'..."
+        },
+        {
+          "number": 6685,
+          "title": "[worker] fix actor offload before rollout weight resume",
+          "user": "BeihaiTianming",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6685",
+          "summary": "This PR changes the colocated actor/rollout weight-sync ordering in `ActorRolloutRefWorker.update_weights` to reduce peak device memory before rollout weight memory is resumed.  The new order is: ..."
+        },
+        {
+          "number": 6684,
+          "title": "[fully_async, trainer] fix: sync optimizer total steps before trainer initialization",
+          "user": "mikequan0425",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6684",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review.  It was observed in experiments that the learning rate (l..."
+        },
+        {
+          "number": 6682,
+          "title": "[megatron] fix: add backward-compatible fallback for bridge.py imports with older Megatron-Bridge",
+          "user": "nuerxiati",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6682",
+          "summary": "> Add **concise** overview of what this PR aims to achieve or accomplish. Reference related GitHub issues and PRs that help with the review.  - Add fallback local implementations of `LinearForLastLa..."
+        }
+      ],
+      "issues": [
+        {
+          "number": 6683,
+          "title": "lr is always 0 in fully async",
+          "user": "mikequan0425",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6683",
+          "summary": "main verl"
+        },
+        {
+          "number": 6681,
+          "title": "[megatron][mbridge] Qwen3.5-VL providers hard-block TP > num_query_groups even when TP is a multiple of num_query_groups",
+          "user": "insightLLM",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6681",
+          "summary": "When training Qwen3.5-VL / Qwen3.5-MoE models with Megatron backend + `actor_rollout_ref.actor.megatron.use_mbridge=True`, the run aborts with:"
+        }
+      ]
+    },
+    {
+      "name": "slime",
+      "repo": "THUDM/slime",
+      "prs": [
+        {
+          "number": 2049,
+          "title": "fix(parsing): strip trailing EOS token from body_text after tool/reasoning parsing for code agent rl",
+          "user": "none0663",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2049",
+          "summary": "`parse_model_output` leaks `<|im_end|>` into the `text` field in two cases:  - **Tool turns with `tool_parser=None`** (XML regex fallback): the tail after   `</tool_call>` is preserved as-is, so `<..."
+        }
+      ],
+      "issues": []
+    }
+  ],
+  "repo_issues": [],
+  "generated_at": "2026-06-11 09:11",
+  "generator": "Codex"
+}
