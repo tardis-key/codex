@@ -58,6 +58,7 @@ def gh_api(method, path, body=None):
         "Accept": "application/vnd.github+json",
     }, method=method)
     ctx = ssl.create_default_context()
+    ctx.set_ciphers('DEFAULT')  # Python 3.13 + OpenSSL 3.5 compatibility
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     with urllib.request.urlopen(req, context=ctx, timeout=20) as resp:
@@ -69,6 +70,7 @@ def fetch_json(url):
         "Accept": "application/vnd.github+json"
     })
     ctx = ssl.create_default_context()
+    ctx.set_ciphers('DEFAULT')  # Python 3.13 + OpenSSL 3.5 compatibility
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
     with urllib.request.urlopen(req, context=ctx, timeout=20) as resp:

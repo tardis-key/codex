@@ -47,17 +47,92 @@
     {
       "name": "verl",
       "repo": "verl-project/verl",
-      "prs": [],
-      "issues": []
+      "prs": [
+        {
+          "number": 6732,
+          "title": "[vllm, rollout] fix: support vLLM pipeline parallel on NPU via engine_kwargs",
+          "user": "chengminhua",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6732",
+          "summary": "Enable Pipeline Parallel (PP) for vLLM rollout on Ascend NPU. On the NPU side, vLLM configures PP via engine_kwargs.vllm.pipeline_parallel_size, whereas verl originally rejected pipeline_model_paralle..."
+        },
+        {
+          "number": 6731,
+          "title": "[algo] feat: add CPPO (position-weighted cumulative-prefix-divergence token mask)",
+          "user": "chongqichuizi875",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6731",
+          "summary": "Adds the official implementation of **CPPO** (Cumulative Prefix-divergence Policy Optimization), from the paper *\"Beyond Uniform Token-Level Trust Region in LLM Reinforcement Learning\"* (arXiv:2606...."
+        },
+        {
+          "number": 6730,
+          "title": "[docker] feat: bump stable trtllm image to 1.3.0rc15",
+          "user": "Superjomn",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/pull/6730",
+          "summary": "Bump docker/Dockerfile.stable.trtllm base image to NGC release:1.3.0rc15. Replace the Megatron-LM git install with pinned PyPI packages (megatron-core==0.17.0, megatron-bridge==0.4.1, nvidia-resilienc..."
+        }
+      ],
+      "issues": [
+        {
+          "number": 6733,
+          "title": "[Memory] `get_named_tensor_buckets` unconditionally `clone()`s every tensor during SGLang weight sync, doubling peak GPU memory and causing OOM",
+          "user": "insightLLM",
+          "state": "open",
+          "url": "https://github.com/verl-project/verl/issues/6733",
+          "summary": "During actor→rollout weight synchronization with the **SGLang** rollout backend, `get_named_tensor_buckets` in `verl/workers/rollout/sglang_rollout/ut..."
+        }
+      ]
     },
     {
       "name": "slime",
       "repo": "THUDM/slime",
-      "prs": [],
+      "prs": [
+        {
+          "number": 2081,
+          "title": "sync from internal and cleanup",
+          "user": "zhuzilin",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2081",
+          "summary": ""
+        },
+        {
+          "number": 2080,
+          "title": "cleanup",
+          "user": "zhuzilin",
+          "state": "closed",
+          "url": "https://github.com/THUDM/slime/pull/2080",
+          "summary": ""
+        },
+        {
+          "number": 2079,
+          "title": "feat(coding_agent_rl): add SWE-bench harness evaluation path",
+          "user": "aoshen02",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2079",
+          "summary": "Add `swebench_metadata` as a third evaluation route in `sandbox.evaluate()`, alongside the existing `swepro` and `eval_cmd` paths. This allows `coding_agent_rl` to grade SWE-bench Verified instances d..."
+        },
+        {
+          "number": 2078,
+          "title": "fix(rollout): isolate per-trajectory exceptions in generate_and_rm_group",
+          "user": "aoshen02",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2078",
+          "summary": "`generate_and_rm_group` gathers per-trajectory tasks with a bare `asyncio.gather(*tasks)` (no `return_exceptions=True`). If **any single trajectory** raises an unhandled exception, gather cancels the ..."
+        },
+        {
+          "number": 2077,
+          "title": "fix(script): correct GLM-4.7 expert_model_parallel_size for single-node 8 GPU",
+          "user": "aoshen02",
+          "state": "open",
+          "url": "https://github.com/THUDM/slime/pull/2077",
+          "summary": "PR #1749 downscaled `actor-num-nodes` from 2 to 1 (16 GPU → 8 GPU) and `tensor-model-parallel-size` from 4 to 2, but did not adjust `expert-model-parallel-size` accordingly."
+        }
+      ],
       "issues": []
     }
   ],
   "repo_issues": [],
-  "generated_at": "2026-06-15 09:02",
+  "generated_at": "2026-06-15 17:47",
   "generator": "Codex"
 }
